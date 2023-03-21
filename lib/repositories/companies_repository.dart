@@ -7,10 +7,6 @@ class CompaniesRepository {
 
   CompaniesRepository(this.apiService);
 
-  Future<Map<String, dynamic>> fetchCompanies() async {
-    return {};
-  }
-
   Future<RepositoryResult<CompanyModel>> fetchCompany(
     String symbol,
     String apikey,
@@ -34,7 +30,7 @@ class CompaniesRepository {
       final company = CompanyModel.tryFromApi(data);
 
       if (company == null) {
-        return RepositoryResult.withError(data['Information'] ?? data['Info']);
+        return RepositoryResult.withError(data['Information'] ?? data['Note']);
       }
 
       return RepositoryResult.withSuccess(company);

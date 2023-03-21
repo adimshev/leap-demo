@@ -5,10 +5,12 @@ import 'package:leap_demo/models/company_model.dart';
 
 class CompaniesChart extends StatefulWidget {
   final List<CompanyModel> companies;
+  final void Function(CompanyModel company)? onTapCompany;
 
   const CompaniesChart({
     super.key,
     required this.companies,
+    this.onTapCompany,
   });
 
   @override
@@ -103,22 +105,34 @@ class _CompaniesChartState extends State<CompaniesChart> {
                   PieChartData(
                     sections: sections,
                     centerSpaceRadius: constraints.minWidth / 4,
-                    // pieTouchData: PieTouchData(
-                    //   touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                    //     if (!event.isInterestedForInteractions ||
-                    //         pieTouchResponse == null ||
-                    //         pieTouchResponse.touchedSection == null) {
-                    //       return;
-                    //     }
+                    pieTouchData: PieTouchData(
+                      touchCallback: (event, pieTouchResponse) {
+                        final onTapCompany = widget.onTapCompany;
 
-                    //     final index = pieTouchResponse
-                    //         .touchedSection!.touchedSectionIndex;
+                        if (onTapCompany == null) {
+                          return;
+                        }
 
-                    //     if (index != -1) {
-                    //       print(widget.companies[index].name);
-                    //     }
-                    //   },
-                    // ),
+                        if (event is! FlTapDownEvent) {
+                          return;
+                        }
+
+                        if (!event.isInterestedForInteractions ||
+                            pieTouchResponse == null ||
+                            pieTouchResponse.touchedSection == null) {
+                          return;
+                        }
+
+                        final index = pieTouchResponse
+                            .touchedSection!.touchedSectionIndex;
+
+                        if (index == -1) {
+                          return;
+                        }
+
+                        onTapCompany(widget.companies[index]);
+                      },
+                    ),
                   ),
                 );
               },

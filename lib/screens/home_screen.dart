@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leap_demo/bloc/cubits/companies_cubit.dart';
@@ -5,13 +6,13 @@ import 'package:leap_demo/bloc/cubits/config_cubit.dart';
 import 'package:leap_demo/bloc/state/companies_state.dart';
 import 'package:leap_demo/helpers/display_snack_bar.dart';
 import 'package:leap_demo/modals/api_key_dialog.dart';
+import 'package:leap_demo/models/company_model.dart';
+import 'package:leap_demo/screens/company_screen.dart';
 import 'package:leap_demo/widgets/companies.dart';
 import 'package:leap_demo/widgets/loader.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.title});
-
-  final String title;
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,10 +20,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final apiKeyDialog = ApiKeyDialog();
-  final symbols = const ['AAPL', 'AMZN', 'GOOG', 'MSFT', 'FB'];
+  final symbols = const ['AAPL', 'AMZN', 'GOOG', 'MSFT', 'IBM'];
 
   late final configCubit = context.read<ConfigCubit>();
   late final companiesCubit = context.read<CompaniesCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    fetchCompanies();
+  }
 
   Future<void> openApiKeyDialog() async {
     final apiKey = (await apiKeyDialog.show(
@@ -31,11 +39,23 @@ class _HomeScreenState extends State<HomeScreen> {
     ))
         ?.trim();
 
-    configCubit.setApiKey(apiKey);
-
     if (apiKey != null && apiKey != '') {
-      companiesCubit.fetchCompanies(symbols);
+      configCubit.setApiKey(apiKey);
+
+      fetchCompanies();
     }
+  }
+
+  Future<void> fetchCompanies() {
+    return companiesCubit.fetchCompanies(symbols);
+  }
+
+  Future<void> openCompany(CompanyModel company) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => CompanyScrren(company: company),
+      ),
+    );
   }
 
   @override
@@ -43,6 +63,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Leap Demo'),
+        actions: !kIsWeb
+            ? null
+            : [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    onPressed: fetchCompanies,
+                    icon: const Icon(Icons.refresh),
+                  ),
+                )
+              ],
       ),
       body: BlocConsumer<CompaniesCubit, CompaniesState>(
           listener: (context, state) {
@@ -59,14 +90,17 @@ class _HomeScreenState extends State<HomeScreen> {
             return Loader(
               isLoading: state.isLoading && state.companies.isEmpty,
               child: RefreshIndicator(
-                onRefresh: () => companiesCubit.fetchCompanies(symbols),
+                onRefresh: fetchCompanies,
                 child: CustomScrollView(
                   slivers: [
-                    if (companies.isEmpty) const SizedBox(),
-                    if (companies.isNotEmpty)
-                      SliverToBoxAdapter(
-                        child: CompaniesChart(companies: companies),
-                      ),
+                    SliverToBoxAdapter(
+                      child: companies.isEmpty
+                          ? const SizedBox()
+                          : CompaniesChart(
+                              companies: companies,
+                              onTapCompany: openCompany,
+                            ),
+                    ),
                   ],
                 ),
               ),

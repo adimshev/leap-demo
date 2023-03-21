@@ -3,7 +3,7 @@ import 'package:leap_demo/bloc/cubits/companies_cubit.dart';
 import 'package:leap_demo/bloc/cubits/config_cubit.dart';
 import 'package:leap_demo/bloc/state/companies_state.dart';
 import 'package:leap_demo/bloc/state/config_state.dart';
-import 'package:leap_demo/config.dart';
+import 'package:leap_demo/constants/config.dart';
 import 'package:leap_demo/repositories/companies_repository.dart';
 import 'package:leap_demo/services/api_service.dart';
 

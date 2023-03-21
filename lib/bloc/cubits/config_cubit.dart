@@ -1,6 +1,6 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:leap_demo/bloc/state/config_state.dart';
-import 'package:leap_demo/config.dart';
+import 'package:leap_demo/constants/config.dart';
 
 class ConfigCubit extends HydratedCubit<ConfigState> {
   ConfigCubit({
