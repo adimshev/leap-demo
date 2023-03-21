@@ -9,7 +9,7 @@ void dispalySnakBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
-      duration: const Duration(seconds: 5),
+      duration: Duration(seconds: uri == null ? 5 : 15),
       action: uri == null
           ? null
           : SnackBarAction(
