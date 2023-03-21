@@ -31,12 +31,12 @@ class CompaniesCubit extends HydratedCubit<CompaniesState> {
       ),
     );
 
-    String? errorMessage;
+    final Set<String> errorMessages = {};
     final Map<String, CompanyModel> companies = {...state.companies};
 
     for (final query in queries) {
       if (query.hasError) {
-        errorMessage = query.errorMessage;
+        errorMessages.add(query.errorMessage);
       } else {
         final company = query.result!;
 
@@ -47,7 +47,7 @@ class CompaniesCubit extends HydratedCubit<CompaniesState> {
     emit(state.copyWith(
       isLoading: false,
       companies: companies,
-      errorMessage: errorMessage,
+      errorMessage: errorMessages.isEmpty ? null : errorMessages.join('\n\n'),
     ));
   }
 

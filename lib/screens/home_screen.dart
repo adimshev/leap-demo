@@ -5,6 +5,7 @@ import 'package:leap_demo/bloc/cubits/config_cubit.dart';
 import 'package:leap_demo/bloc/state/companies_state.dart';
 import 'package:leap_demo/helpers/display_snack_bar.dart';
 import 'package:leap_demo/modals/api_key_dialog.dart';
+import 'package:leap_demo/widgets/companies.dart';
 import 'package:leap_demo/widgets/loader.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,12 +54,20 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           listenWhen: (prev, cur) => prev.errorMessage != cur.errorMessage,
           builder: (contex, state) {
+            final companies = state.companies.values.toList();
+
             return Loader(
               isLoading: state.isLoading && state.companies.isEmpty,
               child: RefreshIndicator(
                 onRefresh: () => companiesCubit.fetchCompanies(symbols),
-                child: const CustomScrollView(
-                  slivers: [SliverToBoxAdapter(child: SizedBox())],
+                child: CustomScrollView(
+                  slivers: [
+                    if (companies.isEmpty) const SizedBox(),
+                    if (companies.isNotEmpty)
+                      SliverToBoxAdapter(
+                        child: CompaniesChart(companies: companies),
+                      ),
+                  ],
                 ),
               ),
             );
