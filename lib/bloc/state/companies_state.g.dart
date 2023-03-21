@@ -11,11 +11,9 @@ _$_CompaniesState _$$_CompaniesStateFromJson(Map<String, dynamic> json) =>
       companies: (json['companies'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, CompanyModel.fromJson(e as Map<String, dynamic>)),
       ),
-      isLoading: json['isLoading'] as bool,
     );
 
 Map<String, dynamic> _$$_CompaniesStateToJson(_$_CompaniesState instance) =>
     <String, dynamic>{
       'companies': instance.companies,
-      'isLoading': instance.isLoading,
     };

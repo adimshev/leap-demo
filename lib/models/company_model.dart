@@ -32,10 +32,10 @@ class CompanyModel with _$CompanyModel {
   factory CompanyModel.fromApi(Map<String, dynamic> json) {
     return CompanyModel(
       symbol: json['Symbol'],
-      name: json['Name'],
-      description: json['Description'],
-      currency: json['Currency'],
-      capitalization: int.parse(json['MarketCapitalization']),
+      name: json['Name'] ?? '',
+      description: json['Description'] ?? '',
+      currency: json['Currency'] ?? '',
+      capitalization: int.tryParse(json['MarketCapitalization'] ?? '') ?? -1,
     );
   }
 }

@@ -21,7 +21,10 @@ CompaniesState _$CompaniesStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CompaniesState {
   Map<String, CompanyModel> get companies => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
   bool get isLoading => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  String? get errorMessage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +38,10 @@ abstract class $CompaniesStateCopyWith<$Res> {
           CompaniesState value, $Res Function(CompaniesState) then) =
       _$CompaniesStateCopyWithImpl<$Res, CompaniesState>;
   @useResult
-  $Res call({Map<String, CompanyModel> companies, bool isLoading});
+  $Res call(
+      {Map<String, CompanyModel> companies,
+      @JsonKey(ignore: true) bool isLoading,
+      @JsonKey(ignore: true) String? errorMessage});
 }
 
 /// @nodoc
@@ -53,6 +59,7 @@ class _$CompaniesStateCopyWithImpl<$Res, $Val extends CompaniesState>
   $Res call({
     Object? companies = null,
     Object? isLoading = null,
+    Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
       companies: null == companies
@@ -63,6 +70,10 @@ class _$CompaniesStateCopyWithImpl<$Res, $Val extends CompaniesState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -75,7 +86,10 @@ abstract class _$$_CompaniesStateCopyWith<$Res>
       __$$_CompaniesStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, CompanyModel> companies, bool isLoading});
+  $Res call(
+      {Map<String, CompanyModel> companies,
+      @JsonKey(ignore: true) bool isLoading,
+      @JsonKey(ignore: true) String? errorMessage});
 }
 
 /// @nodoc
@@ -91,6 +105,7 @@ class __$$_CompaniesStateCopyWithImpl<$Res>
   $Res call({
     Object? companies = null,
     Object? isLoading = null,
+    Object? errorMessage = freezed,
   }) {
     return _then(_$_CompaniesState(
       companies: null == companies
@@ -101,6 +116,10 @@ class __$$_CompaniesStateCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -110,7 +129,8 @@ class __$$_CompaniesStateCopyWithImpl<$Res>
 class _$_CompaniesState extends _CompaniesState {
   const _$_CompaniesState(
       {required final Map<String, CompanyModel> companies,
-      required this.isLoading})
+      @JsonKey(ignore: true) this.isLoading = false,
+      @JsonKey(ignore: true) this.errorMessage})
       : _companies = companies,
         super._();
 
@@ -126,11 +146,15 @@ class _$_CompaniesState extends _CompaniesState {
   }
 
   @override
+  @JsonKey(ignore: true)
   final bool isLoading;
+  @override
+  @JsonKey(ignore: true)
+  final String? errorMessage;
 
   @override
   String toString() {
-    return 'CompaniesState(companies: $companies, isLoading: $isLoading)';
+    return 'CompaniesState(companies: $companies, isLoading: $isLoading, errorMessage: $errorMessage)';
   }
 
   @override
@@ -141,13 +165,15 @@ class _$_CompaniesState extends _CompaniesState {
             const DeepCollectionEquality()
                 .equals(other._companies, _companies) &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_companies), isLoading);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_companies), isLoading, errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -166,7 +192,8 @@ class _$_CompaniesState extends _CompaniesState {
 abstract class _CompaniesState extends CompaniesState {
   const factory _CompaniesState(
       {required final Map<String, CompanyModel> companies,
-      required final bool isLoading}) = _$_CompaniesState;
+      @JsonKey(ignore: true) final bool isLoading,
+      @JsonKey(ignore: true) final String? errorMessage}) = _$_CompaniesState;
   const _CompaniesState._() : super._();
 
   factory _CompaniesState.fromJson(Map<String, dynamic> json) =
@@ -175,7 +202,11 @@ abstract class _CompaniesState extends CompaniesState {
   @override
   Map<String, CompanyModel> get companies;
   @override
+  @JsonKey(ignore: true)
   bool get isLoading;
+  @override
+  @JsonKey(ignore: true)
+  String? get errorMessage;
   @override
   @JsonKey(ignore: true)
   _$$_CompaniesStateCopyWith<_$_CompaniesState> get copyWith =>

@@ -1,4 +1,3 @@
-import 'package:leap_demo/config.dart';
 import 'package:leap_demo/models/company_model.dart';
 import 'package:leap_demo/repositories/repository_result.dart';
 import 'package:leap_demo/services/api_service.dart';
@@ -12,14 +11,17 @@ class CompaniesRepository {
     return {};
   }
 
-  Future<RepositoryResult<CompanyModel>> fetchCompany(String symbol) async {
+  Future<RepositoryResult<CompanyModel>> fetchCompany(
+    String symbol,
+    String apikey,
+  ) async {
     try {
       final result = await apiService.get<Map<String, dynamic>>(
         ApiPaths.query,
         queryParameters: {
           'function': 'OVERVIEW',
           'symbol': symbol,
-          'apikey': Config.apiKey,
+          'apikey': apikey,
         },
       );
 

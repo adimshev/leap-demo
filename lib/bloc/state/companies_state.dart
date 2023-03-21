@@ -10,13 +10,14 @@ class CompaniesState with _$CompaniesState {
 
   const factory CompaniesState({
     required Map<String, CompanyModel> companies,
-    required bool isLoading,
+    @JsonKey(ignore: true) @Default(false) bool isLoading,
+    @JsonKey(ignore: true) String? errorMessage,
   }) = _CompaniesState;
 
   factory CompaniesState.fromJson(Map<String, dynamic> json) =>
       _$CompaniesStateFromJson(json);
 
   factory CompaniesState.initial() {
-    return const CompaniesState(companies: {}, isLoading: true);
+    return const CompaniesState(companies: {});
   }
 }

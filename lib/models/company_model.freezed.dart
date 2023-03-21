@@ -150,7 +150,7 @@ class __$$_CompanyModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CompanyModel extends _CompanyModel {
+class _$_CompanyModel extends _CompanyModel with DiagnosticableTreeMixin {
   const _$_CompanyModel(
       {required this.symbol,
       required this.name,
@@ -174,8 +174,20 @@ class _$_CompanyModel extends _CompanyModel {
   final int capitalization;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'CompanyModel(symbol: $symbol, name: $name, description: $description, currency: $currency, capitalization: $capitalization)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'CompanyModel'))
+      ..add(DiagnosticsProperty('symbol', symbol))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('currency', currency))
+      ..add(DiagnosticsProperty('capitalization', capitalization));
   }
 
   @override
